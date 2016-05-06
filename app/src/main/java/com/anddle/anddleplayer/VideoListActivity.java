@@ -8,22 +8,34 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class VideoListActivity extends AppCompatActivity {
+public class VideoListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public static final String TAG = "Anddle Player";
 
     private AsyncTask mVideoUpdateTask;
+    private List<VideoItem> mVideoList;
+    private ListView mVideoListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_list);
+
+        this.setTitle(R.string.video_list);
+
+        mVideoList = new ArrayList<VideoItem>();
+        mVideoListView = (ListView) findViewById(R.id.video_list);
+        VideoItemAdapter adapter = new VideoItemAdapter(this, R.layout.video_item, mVideoList);
+        mVideoListView.setAdapter(adapter);
 
         mVideoUpdateTask = new VideoUpdateTask();
         mVideoUpdateTask.execute();
@@ -40,6 +52,13 @@ public class VideoListActivity extends AppCompatActivity {
         }
 
         mVideoUpdateTask = null;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        VideoItem item = mVideoList.get(position);
+
     }
 
     private class VideoUpdateTask  extends AsyncTask<Object, VideoItem, Void> {
@@ -86,6 +105,10 @@ public class VideoListActivity extends AppCompatActivity {
         protected void onProgressUpdate(VideoItem... values) {
 
             VideoItem data = values[0];
+
+            mVideoList.add(data);
+            VideoItemAdapter adapter = (VideoItemAdapter) mVideoListView.getAdapter();
+            adapter.notifyDataSetChanged();
 
         }
 
