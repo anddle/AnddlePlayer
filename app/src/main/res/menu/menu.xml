@@ -6,4 +6,8 @@
         app:showAsAction="always"
         android:title="@string/refresh"/>
 
+    <item android:id="@+id/menu_about"
+        app:showAsAction="never"
+        android:title="@string/about"/>
+
 </menu>
