@@ -20,6 +20,13 @@
         </activity>
 
         <activity android:name=".VideoPlayer">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="file" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 
