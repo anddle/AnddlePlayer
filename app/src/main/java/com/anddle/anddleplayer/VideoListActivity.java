@@ -1,6 +1,7 @@
 package com.anddle.anddleplayer;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -39,6 +40,7 @@ public class VideoListActivity extends AppCompatActivity implements AdapterView.
         mVideoListView = (ListView) findViewById(R.id.video_list);
         VideoItemAdapter adapter = new VideoItemAdapter(this, R.layout.video_item, mVideoList);
         mVideoListView.setAdapter(adapter);
+        mVideoListView.setOnItemClickListener(this);
 
         mVideoUpdateTask = new VideoUpdateTask();
         mVideoUpdateTask.execute();
@@ -61,6 +63,9 @@ public class VideoListActivity extends AppCompatActivity implements AdapterView.
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         VideoItem item = mVideoList.get(position);
+        Intent i = new Intent(this, VideoPlayer.class);
+        i.setData(Uri.parse(item.path));
+        startActivity(i);
 
     }
 

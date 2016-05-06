@@ -4,4 +4,10 @@
     <string name="video_list">视频列表</string>
     <string name="refresh">刷新</string>
     <string name="in_refresh">停止刷新</string>
+    <string name="unknown">未知</string>
+    <string name="no_playing_target">没有可播放的视频.</string>
+    <string name="video_name">视频名称:</string>
+    <string name="video_width_height">视频尺寸:</string>
+    <string name="video_size">文件大小:</string>
+    <string name="created_time">创建时间:</string>
 </resources>

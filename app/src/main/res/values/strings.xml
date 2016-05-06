@@ -4,4 +4,10 @@
     <string name="search_path">/Video/</string>
     <string name="refresh">Refresh</string>
     <string name="in_refresh">Stop freshing</string>
+    <string name="unknown">Unknown</string>
+    <string name="no_playing_target">No video found!</string>
+    <string name="video_name">Video Name:</string>
+    <string name="video_width_height">Video size:</string>
+    <string name="video_size">Video file size:</string>
+    <string name="created_time">Create Time:</string>
 </resources>

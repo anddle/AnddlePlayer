@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:background="@color/video_background_color">
+
+        <VideoView
+            android:layout_gravity="center"
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp">
+
+        <TableRow>
+
+            <TextView
+                android:text="@string/video_name"/>
+
+            <TextView
+                android:id="@+id/video_title"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:text="@string/video_width_height"/>
+
+            <TextView
+                android:id="@+id/video_width_height"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:text="@string/video_size"/>
+
+            <TextView
+                android:id="@+id/video_size"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:text="@string/created_time"/>
+
+            <TextView
+                android:id="@+id/video_create_time"/>
+
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
