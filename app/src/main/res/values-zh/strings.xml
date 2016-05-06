@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">安豆播放器</string>
     <string name="video_list">视频列表</string>
+    <string name="refresh">刷新</string>
+    <string name="in_refresh">停止刷新</string>
 </resources>
