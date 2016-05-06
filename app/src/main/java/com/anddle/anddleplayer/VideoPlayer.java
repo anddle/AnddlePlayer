@@ -38,57 +38,64 @@ public class VideoPlayer extends AppCompatActivity {
 
         setContentView(R.layout.activity_video_player);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 
-        String[] searchKey = new String[] {
-                MediaStore.Video.Media.TITLE,
-                MediaStore.Video.Media.WIDTH,
-                MediaStore.Video.Media.HEIGHT,
-                MediaStore.Images.Media.SIZE,
-                MediaStore.Images.Media.DATE_ADDED
-        };
-        String where = MediaStore.Video.Media.DATA + " = '" + path + "'";
-        String[] keywords = null;
-        String sortOrder = MediaStore.Video.Media.DEFAULT_SORT_ORDER;
-        Cursor cursor = getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, searchKey, where, keywords, sortOrder);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (cursor != null) {
+            String[] searchKey = new String[]{
+                    MediaStore.Video.Media.TITLE,
+                    MediaStore.Video.Media.WIDTH,
+                    MediaStore.Video.Media.HEIGHT,
+                    MediaStore.Images.Media.SIZE,
+                    MediaStore.Images.Media.DATE_ADDED
+            };
+            String where = MediaStore.Video.Media.DATA + " = '" + path + "'";
+            String[] keywords = null;
+            String sortOrder = MediaStore.Video.Media.DEFAULT_SORT_ORDER;
+            Cursor cursor = getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, searchKey, where, keywords, sortOrder);
 
-            if (cursor.getCount() > 0) {
-                cursor.moveToNext();
+            if (cursor != null) {
 
-                String createdTime = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED));
-                String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE));
-                int size = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
-                int width = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.WIDTH));
-                int height = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.HEIGHT));
-                VideoItem item = new VideoItem(path, name, createdTime);
+                if (cursor.getCount() > 0) {
+                    cursor.moveToNext();
 
-                TextView title = (TextView) findViewById(R.id.video_title);
-                title.setText(item.name);
+                    String createdTime = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED));
+                    String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE));
+                    int size = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
+                    int width = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.WIDTH));
+                    int height = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.HEIGHT));
+                    VideoItem item = new VideoItem(path, name, createdTime);
 
-                TextView created = (TextView) findViewById(R.id.video_create_time);
-                created.setText(item.createdTime);
+                    TextView title = (TextView) findViewById(R.id.video_title);
+                    title.setText(item.name);
 
-                TextView screen = (TextView) findViewById(R.id.video_width_height);
-                screen.setText(width + "*" + height);
+                    TextView created = (TextView) findViewById(R.id.video_create_time);
+                    created.setText(item.createdTime);
 
-                TextView fileSize = (TextView) findViewById(R.id.video_size);
-                fileSize.setText(String.valueOf(size / 1024 / 1024) + "M");
-            } else {
-                TextView title = (TextView) findViewById(R.id.video_title);
-                title.setText(R.string.unknown);
+                    TextView screen = (TextView) findViewById(R.id.video_width_height);
+                    screen.setText(width + "*" + height);
 
-                TextView created = (TextView) findViewById(R.id.video_create_time);
-                created.setText(R.string.unknown);
+                    TextView fileSize = (TextView) findViewById(R.id.video_size);
+                    fileSize.setText(String.valueOf(size / 1024 / 1024) + "M");
+                } else {
+                    TextView title = (TextView) findViewById(R.id.video_title);
+                    title.setText(R.string.unknown);
 
-                TextView screen = (TextView) findViewById(R.id.video_width_height);
-                screen.setText(R.string.unknown);
+                    TextView created = (TextView) findViewById(R.id.video_create_time);
+                    created.setText(R.string.unknown);
 
-                TextView fileSize = (TextView) findViewById(R.id.video_size);
-                fileSize.setText(R.string.unknown);
+                    TextView screen = (TextView) findViewById(R.id.video_width_height);
+                    screen.setText(R.string.unknown);
+
+                    TextView fileSize = (TextView) findViewById(R.id.video_size);
+                    fileSize.setText(R.string.unknown);
+                }
+                cursor.close();
             }
-            cursor.close();
+        }
+        else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getSupportActionBar().hide();
         }
 
         mVideoView = (VideoView) findViewById(R.id.video_view);
@@ -124,6 +131,20 @@ public class VideoPlayer extends AppCompatActivity {
         if(mLastPlayedTime > 0) {
             mVideoView.seekTo(mLastPlayedTime);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(LAST_PLAYED_TIME, mVideoView.getCurrentPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mLastPlayedTime = savedInstanceState.getInt(LAST_PLAYED_TIME);
     }
 
     private void exit()
